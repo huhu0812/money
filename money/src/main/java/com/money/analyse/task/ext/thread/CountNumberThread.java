@@ -1,4 +1,4 @@
-package com.money.analyse;
+package com.money.analyse.task.ext.thread;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -14,32 +14,27 @@ import org.apache.commons.lang.StringUtils;
 import com.money.entities.AnalyseResult;
 import com.money.entities.MoneyNumber;
 import com.money.utils.Constants;
+import com.money.utils.ConstructUtil;
 import com.money.utils.enums.AppeareType;
 
-public class CountNumberTask implements Runnable {
+public class CountNumberThread implements Runnable {
 
 	private ThreadLocal<List<MoneyNumber>> moneyNumberList = new ThreadLocal<List<MoneyNumber>>();
 
 	private ThreadLocal<AppeareType> type = new ThreadLocal<AppeareType>();
 
 	private ThreadLocal<Consumer<AnalyseResult>> consumer = new ThreadLocal<Consumer<AnalyseResult>>();
+
 	private ThreadLocal<Map<String, Integer>> countMap = new ThreadLocal<Map<String, Integer>>() {
 		public Map<String, Integer> initialValue() {
-			Map<String, Integer> countMap = new HashMap<String, Integer>();
-			for (int i = 0; i < Constants.RED.length; i++) {
-				countMap.put("r" + Constants.RED[i], Integer.valueOf(0));
-			}
-			for (int i = 0; i < Constants.BLUE.length; i++) {
-				countMap.put("b" + Constants.BLUE[i], Integer.valueOf(0));
-			}
-			return countMap;
+			return ConstructUtil.getInitCountMap();
 		}
 	};
 
-	public CountNumberTask() {
+	public CountNumberThread() {
 	}
 
-	public CountNumberTask(List<MoneyNumber> moneyNumberList, AppeareType type, Consumer<AnalyseResult> consumer) {
+	public CountNumberThread(List<MoneyNumber> moneyNumberList, AppeareType type, Consumer<AnalyseResult> consumer) {
 		this.moneyNumberList.set(moneyNumberList);
 		this.type.set(type);
 		this.consumer.set(consumer);
