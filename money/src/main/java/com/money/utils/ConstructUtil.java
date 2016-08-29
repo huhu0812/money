@@ -1,6 +1,5 @@
 package com.money.utils;
 
-import com.money.entities.OriginalNumber;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.StringUtils;
+
+import com.money.entities.OriginalNumber;
 
 public class ConstructUtil {
 
@@ -20,6 +22,25 @@ public class ConstructUtil {
 			countMap.put("b" + Constants.BLUE[i], Integer.valueOf(0));
 		}
 		return countMap;
+	}
+
+	public static Map<String, String> getRedValue(Object target) {
+		Map<String, String> result = new HashMap<String, String>();
+		for (String red : Constants.RED) {
+			try {
+				String value = BeanUtils.getProperty(target, "r" + red);
+				if (StringUtils.isNotBlank(value)) {
+					result.put("r" + red, value);
+				}
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
 	}
 
 	public static List<List<String>> constructNumber(List<String> numbers) {

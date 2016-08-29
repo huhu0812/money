@@ -6,6 +6,7 @@ public enum AppeareType {
 	THRITY("30", "last 30", 30),
 	FIFTY("50", "last 50", 50),
 	HUNDRED("100", "last 100", 100),
+	GENETIC("Gen", "Result", -1),
 	ALL("0", "All", 0);
 
 	private String description;
