@@ -1,7 +1,6 @@
 package com.money.analyse.task.ext.thread;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +12,6 @@ import org.apache.commons.lang.StringUtils;
 
 import com.money.entities.AnalyseResult;
 import com.money.entities.MoneyNumber;
-import com.money.utils.Constants;
 import com.money.utils.ConstructUtil;
 import com.money.utils.enums.AppeareType;
 

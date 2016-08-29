@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.money.entities.MoneyNumber;
 import com.money.entities.OriginalNumber;
 import com.money.model.HistoryNumber;
-import com.money.repository.AnalyseResultRepository;
 import com.money.repository.MoneyNumberRepository;
 import com.money.repository.OriginalNumberRepository;
 import com.money.service.IMoneyNumberService;

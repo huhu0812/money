@@ -1,8 +1,9 @@
 package com.money.repository;
 
-import com.money.entities.OriginalNumber;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import com.money.entities.OriginalNumber;
 
 @Repository
 public interface OriginalNumberRepository extends JpaRepository<OriginalNumber, String> {

@@ -1,10 +1,12 @@
 package com.money.repository;
 
-import com.money.entities.AnalyseResult;
-import com.money.utils.enums.AppeareType;
 import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+
+import com.money.entities.AnalyseResult;
+import com.money.utils.enums.AppeareType;
 
 public abstract interface AnalyseResultRepository extends JpaRepository<AnalyseResult, Long> {
 
