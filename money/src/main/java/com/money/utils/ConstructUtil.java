@@ -68,6 +68,7 @@ public class ConstructUtil {
 				e.printStackTrace();
 			}
 		}
+		result.setCombinedNumber(numbers.toString());
 		return result;
 	}
 }

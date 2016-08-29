@@ -111,6 +111,9 @@ public class OriginalNumber implements Serializable {
 	@Column(length = 2)
 	private String b16;
 
+	@Column(length = 50, unique = true)
+	private String combinedNumber;
+
 	public Long getId() {
 		return this.id;
 	}
@@ -509,6 +512,14 @@ public class OriginalNumber implements Serializable {
 
 	public void setB16(String b16) {
 		this.b16 = b16;
+	}
+
+	public String getCombinedNumber() {
+		return combinedNumber;
+	}
+
+	public void setCombinedNumber(String combinedNumber) {
+		this.combinedNumber = combinedNumber;
 	}
 
 	public String toString() {

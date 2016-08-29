@@ -1,29 +1,30 @@
 package com.money.entities;
 
 import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class MoneyNumber implements Serializable {
-	
+
 	private static final long serialVersionUID = 5541822813701375535L;
-	
+
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+
 	@Column(length = 14)
 	private String date;
 
 	@Column(length = 20)
 	private String index;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "number_id")
 	private OriginalNumber number;
 

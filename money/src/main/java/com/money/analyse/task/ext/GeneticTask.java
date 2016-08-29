@@ -156,8 +156,12 @@ public class GeneticTask extends BaseTask {
 				if (i % 2 == 1) {
 					Integer tempNumber = this.numbers.get(i);
 					Double tempPriority = this.prioritys.get(i);
+					if (target.numbers.contains(tempNumber) && target.numbers.indexOf(tempNumber) != i) {
+						continue;
+					}
 					this.numbers.set(i, target.numbers.get(i));
 					this.prioritys.set(i, target.prioritys.get(i));
+
 					target.numbers.set(i, tempNumber);
 					target.prioritys.set(i, tempPriority);
 				}
@@ -166,13 +170,19 @@ public class GeneticTask extends BaseTask {
 
 		public void mutation() {
 			Double randomValue = Math.random();
-			if (randomValue < PM) {
-				int index = (int) (randomValue * 10 % 6);
-				int valueIndex = (int) (randomValue * 100 % Constants.RED.length);
-				int value = Integer.valueOf(Constants.RED[valueIndex]);
-				this.numbers.set(index, value);
-				this.prioritys.set(index, priorityMap.get("r" + Constants.RED[valueIndex]));
+			if (randomValue >= PM) {
+				return;
 			}
+			int index = (int) (randomValue * 10 % 6);
+			int valueIndex;
+			int value;
+			do {
+				valueIndex = (int) (randomValue * 100 % Constants.RED.length);
+				value = Integer.valueOf(Constants.RED[valueIndex]);
+				randomValue = Math.random();
+			} while (this.numbers.contains(value));
+			this.numbers.set(index, value);
+			this.prioritys.set(index, priorityMap.get("r" + Constants.RED[valueIndex]));
 		}
 
 		public AnalyseResult getResult() {

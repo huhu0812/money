@@ -26,4 +26,12 @@ public class CacheWrapper {
 		}
 		return null;
 	}
+
+	public void clearCache() {
+		try {
+			this.jcsCache.clear();
+		} catch (CacheException e) {
+			e.printStackTrace();
+		}
+	}
 }

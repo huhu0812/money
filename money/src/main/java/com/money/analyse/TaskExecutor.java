@@ -6,10 +6,13 @@ import java.util.function.Consumer;
 
 import javax.annotation.Resource;
 
+import org.springframework.stereotype.Component;
+
 import com.money.analyse.task.BaseTask;
 import com.money.entities.AnalyseResult;
 import com.money.repository.AnalyseResultRepository;
 
+@Component
 public class TaskExecutor {
 
 	@Resource(name = "taskList")
@@ -18,11 +21,7 @@ public class TaskExecutor {
 	@Resource
 	private AnalyseResultRepository analyseResultRepository;
 
-	private static class TaskExecutorInner {
-		public static final TaskExecutor executor = new TaskExecutor();
-	}
-
-	private TaskExecutor() {
+	public void executeTask() {
 		final List<AnalyseResult> anaylseResults = new ArrayList<AnalyseResult>();
 		for (BaseTask task : taskList) {
 			try {
@@ -36,13 +35,5 @@ public class TaskExecutor {
 			}
 		}
 		analyseResultRepository.save(anaylseResults);
-	}
-
-	public static final TaskExecutor getInstance() {
-		return TaskExecutorInner.executor;
-	}
-
-	public void executeTask() {
-
 	}
 }

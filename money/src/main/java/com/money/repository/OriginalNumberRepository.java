@@ -5,6 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public abstract interface OriginalNumberRepository extends JpaRepository<OriginalNumber, String> {
-	public abstract OriginalNumber findById(Long paramLong);
+public interface OriginalNumberRepository extends JpaRepository<OriginalNumber, String> {
+
+	public OriginalNumber findById(Long paramLong);
+
+	public OriginalNumber findByCombinedNumber(String combinedNumber);
 }

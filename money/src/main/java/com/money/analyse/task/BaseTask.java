@@ -20,7 +20,7 @@ public abstract class BaseTask {
 
 	@Resource
 	protected AnalyseResultRepository analyseResultRepository;
-	
+
 	@Resource
 	protected OriginalNumberRepository originalNumberRepository;
 

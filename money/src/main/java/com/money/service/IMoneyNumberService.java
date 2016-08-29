@@ -1,5 +1,10 @@
 package com.money.service;
 
-public abstract interface IMoneyNumberService {
-	public abstract void analyseMoney();
+import com.money.model.HistoryNumber;
+
+public interface IMoneyNumberService {
+
+	public void uploadHistoryData(String filePath);
+
+	public void insertNewOne(HistoryNumber historyNumber);
 }
