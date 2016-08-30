@@ -1,6 +1,8 @@
 package com.money.service.impl;
 
 import java.util.Comparator;
+import java.util.List;
+import java.util.function.Consumer;
 
 import javax.annotation.Resource;
 
@@ -12,6 +14,7 @@ import com.money.model.HistoryNumber;
 import com.money.repository.MoneyNumberRepository;
 import com.money.repository.OriginalNumberRepository;
 import com.money.service.IMoneyNumberService;
+import com.money.utils.excel.ExcelReader;
 
 @Service
 public class MoneyNumberServiceImpl implements IMoneyNumberService {
@@ -23,7 +26,20 @@ public class MoneyNumberServiceImpl implements IMoneyNumberService {
 	private OriginalNumberRepository originalNumberRepository;
 
 	public void uploadHistoryData(String filePath) {
-		// TODO: read excel file and get the history data
+		ExcelReader.readExcel(filePath, new Consumer<List<String>>() {
+			public void accept(List<String> dataList) {
+				MoneyNumber moneyNumber = new MoneyNumber();
+				moneyNumber.setDate(dataList.get(0));
+				moneyNumber.setIndex(dataList.get(1));
+				OriginalNumber originalNumber = originalNumberRepository.findByRedCombinedAndBlue(
+						dataList.subList(2, dataList.size() - 1).toString(), dataList.get(dataList.size() - 1));
+				if (originalNumber == null) {
+					return;
+				}
+				moneyNumber.setNumber(originalNumber);
+				moneyNumberRepository.save(moneyNumber);
+			}
+		});
 	}
 
 	public void insertNewOne(HistoryNumber historyNumber) {

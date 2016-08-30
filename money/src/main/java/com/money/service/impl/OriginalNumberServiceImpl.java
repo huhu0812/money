@@ -1,9 +1,7 @@
 package com.money.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -20,11 +18,11 @@ public class OriginalNumberServiceImpl implements IOriginalNumberService {
 	@Resource
 	private OriginalNumberRepository repository;
 
-	private Set<String> exist = new HashSet<String>();
-
 	public void initAllNumber() {
+		long stattime = System.currentTimeMillis();
 		int nCnt = Constants.RED.length;
 		long nBit = -1L >>> 63 - nCnt;
+		long number = 0;
 		for (int i = 1; i <= nBit; i++) {
 			List<String> result = new ArrayList<String>(6);
 			boolean isLong = false;
@@ -37,10 +35,15 @@ public class OriginalNumberServiceImpl implements IOriginalNumberService {
 					result.add(Constants.RED[j]);
 				}
 			}
-			if (!isLong && result.size() == 6 && this.exist.add(result.toString())) {
+			if (!isLong && result.size() == 6) {
 				for (List<String> temp : ConstructUtil.constructNumber(result)) {
 					try {
 						this.repository.save(ConstructUtil.constructOriginalNumber(temp));
+						number++;
+						if (number % 1000 == 0) {
+							System.out.println(
+									"Generate " + number + " records, time:" + (System.currentTimeMillis() - stattime));
+						}
 					} catch (Exception e) {
 						e.printStackTrace();
 						System.out.println(temp.toString());
