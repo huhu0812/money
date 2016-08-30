@@ -23,7 +23,7 @@ public class MoneyNumberServiceImpl implements IMoneyNumberService {
 	private OriginalNumberRepository originalNumberRepository;
 
 	public void uploadHistoryData(String filePath) {
-		//TODO: read excel file and get the history data
+		// TODO: read excel file and get the history data
 	}
 
 	public void insertNewOne(HistoryNumber historyNumber) {
@@ -32,8 +32,9 @@ public class MoneyNumberServiceImpl implements IMoneyNumberService {
 				return o2.compareTo(o2);
 			}
 		});
-		OriginalNumber originalNumber = originalNumberRepository
-				.findByCombinedNumber(historyNumber.getNumbers().toString());
+		OriginalNumber originalNumber = originalNumberRepository.findByRedCombinedAndBlue(
+				historyNumber.getNumbers().subList(0, historyNumber.getNumbers().size() - 1).toString(),
+				historyNumber.getNumbers().get(historyNumber.getNumbers().size() - 1));
 		if (originalNumber == null) {
 			return;
 		}

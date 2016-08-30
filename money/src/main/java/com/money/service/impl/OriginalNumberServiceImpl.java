@@ -24,7 +24,6 @@ public class OriginalNumberServiceImpl implements IOriginalNumberService {
 
 	public void initAllNumber() {
 		int nCnt = Constants.RED.length;
-
 		long nBit = -1L >>> 63 - nCnt;
 		for (int i = 1; i <= nBit; i++) {
 			List<String> result = new ArrayList<String>(6);
@@ -40,7 +39,12 @@ public class OriginalNumberServiceImpl implements IOriginalNumberService {
 			}
 			if (!isLong && result.size() == 6 && this.exist.add(result.toString())) {
 				for (List<String> temp : ConstructUtil.constructNumber(result)) {
-					this.repository.save(ConstructUtil.constructOriginalNumber(temp));
+					try {
+						this.repository.save(ConstructUtil.constructOriginalNumber(temp));
+					} catch (Exception e) {
+						e.printStackTrace();
+						System.out.println(temp.toString());
+					}
 				}
 			}
 		}

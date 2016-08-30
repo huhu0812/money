@@ -10,5 +10,5 @@ public interface OriginalNumberRepository extends JpaRepository<OriginalNumber, 
 
 	public OriginalNumber findById(Long paramLong);
 
-	public OriginalNumber findByCombinedNumber(String combinedNumber);
+	public OriginalNumber findByRedCombinedAndBlue(String redCombined, String blue);
 }

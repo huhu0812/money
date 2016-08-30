@@ -59,6 +59,7 @@ public class ConstructUtil {
 			String field = "r" + (String) numbers.get(i);
 			if (i == numbers.size() - 1) {
 				field = "b" + (String) numbers.get(i);
+				result.setBlue(numbers.get(i));
 			}
 			try {
 				BeanUtils.setProperty(result, field, numbers.get(i));
@@ -68,7 +69,7 @@ public class ConstructUtil {
 				e.printStackTrace();
 			}
 		}
-		result.setCombinedNumber(numbers.toString());
+		result.setRedCombined(numbers.subList(0, numbers.size() - 1).toString());
 		return result;
 	}
 }

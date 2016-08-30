@@ -6,8 +6,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
+@Table(name = "originalnumber", uniqueConstraints = { @UniqueConstraint(columnNames = { "redCombined", "blue" }) })
 public class OriginalNumber implements Serializable {
 	private static final long serialVersionUID = -8988899071891701236L;
 	@Id
@@ -112,8 +115,11 @@ public class OriginalNumber implements Serializable {
 	@Column(length = 2)
 	private String b16;
 
-	@Column(length = 50, unique = true)
-	private String combinedNumber;
+	@Column(length = 50)
+	private String redCombined;
+
+	@Column(length = 10)
+	private String blue;
 
 	public Long getId() {
 		return this.id;
@@ -515,28 +521,32 @@ public class OriginalNumber implements Serializable {
 		this.b16 = b16;
 	}
 
-	public String getCombinedNumber() {
-		return combinedNumber;
+	public String getRedCombined() {
+		return redCombined;
 	}
 
-	public void setCombinedNumber(String combinedNumber) {
-		this.combinedNumber = combinedNumber;
+	public void setRedCombined(String redCombined) {
+		this.redCombined = redCombined;
 	}
 
+	public String getBlue() {
+		return blue;
+	}
+
+	public void setBlue(String blue) {
+		this.blue = blue;
+	}
+
+	@Override
 	public String toString() {
-		return
-
-		"OriginalNumber [id=" + this.id + ", r01=" + this.r01 + ", r02=" + this.r02 + ", r03=" + this.r03 + ", r04="
-				+ this.r04 + ", r05=" + this.r05 + ", r06=" + this.r06 + ", r07=" + this.r07 + ", r08=" + this.r08
-				+ ", r09=" + this.r09 + ", r10=" + this.r10 + ", r11=" + this.r11 + ", r12=" + this.r12 + ", r13="
-				+ this.r13 + ", r14=" + this.r14 + ", r15=" + this.r15 + ", r16=" + this.r16 + ", r17=" + this.r17
-				+ ", r18=" + this.r18 + ", r19=" + this.r19 + ", r20=" + this.r20 + ", r21=" + this.r21 + ", r22="
-				+ this.r22 + ", r23=" + this.r23 + ", r24=" + this.r24 + ", r25=" + this.r25 + ", r26=" + this.r26
-				+ ", r27=" + this.r27 + ", r28=" + this.r28 + ", r29=" + this.r29 + ", r30=" + this.r30 + ", r31="
-				+ this.r31 + ", r32=" + this.r32 + ", r33=" + this.r33 + ", b01=" + this.b01 + ", b02=" + this.b02
-				+ ", b03=" + this.b03 + ", b04=" + this.b04 + ", b05=" + this.b05 + ", b06=" + this.b06 + ", b07="
-				+ this.b07 + ", b08=" + this.b08 + ", b09=" + this.b09 + ", b10=" + this.b10 + ", b11=" + this.b11
-				+ ", b12=" + this.b12 + ", b13=" + this.b13 + ", b14=" + this.b14 + ", b15=" + this.b15 + ", b16="
-				+ this.b16 + "]";
+		return "OriginalNumber [id=" + id + ", r01=" + r01 + ", r02=" + r02 + ", r03=" + r03 + ", r04=" + r04 + ", r05="
+				+ r05 + ", r06=" + r06 + ", r07=" + r07 + ", r08=" + r08 + ", r09=" + r09 + ", r10=" + r10 + ", r11="
+				+ r11 + ", r12=" + r12 + ", r13=" + r13 + ", r14=" + r14 + ", r15=" + r15 + ", r16=" + r16 + ", r17="
+				+ r17 + ", r18=" + r18 + ", r19=" + r19 + ", r20=" + r20 + ", r21=" + r21 + ", r22=" + r22 + ", r23="
+				+ r23 + ", r24=" + r24 + ", r25=" + r25 + ", r26=" + r26 + ", r27=" + r27 + ", r28=" + r28 + ", r29="
+				+ r29 + ", r30=" + r30 + ", r31=" + r31 + ", r32=" + r32 + ", r33=" + r33 + ", b01=" + b01 + ", b02="
+				+ b02 + ", b03=" + b03 + ", b04=" + b04 + ", b05=" + b05 + ", b06=" + b06 + ", b07=" + b07 + ", b08="
+				+ b08 + ", b09=" + b09 + ", b10=" + b10 + ", b11=" + b11 + ", b12=" + b12 + ", b13=" + b13 + ", b14="
+				+ b14 + ", b15=" + b15 + ", b16=" + b16 + ", redCombined=" + redCombined + ", blue=" + blue + "]";
 	}
 }
