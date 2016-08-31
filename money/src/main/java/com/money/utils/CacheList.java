@@ -34,10 +34,14 @@ public class CacheList<E> extends ArrayList<E> {
 	}
 
 	public CacheList() {
-		cacheWrapper = CacheFactory.getCacheWrapper(null);
+		this.elementList = new ArrayList<String>();
+		if (cacheWrapper == null) {
+			cacheWrapper = CacheFactory.getCacheWrapper(null);
+		}
 	}
 
 	public CacheList(List<E> cacheList) {
+		this();
 		for (int i = 0; i < cacheList.size(); i++) {
 			this.add(cacheList.get(i));
 		}
@@ -212,7 +216,7 @@ public class CacheList<E> extends ArrayList<E> {
 	 * An optimized version of AbstractList.Itr
 	 */
 	private class Itr implements Iterator<E> {
-		int cursor; // index of next element to return
+		int cursor = 0; // index of next element to return
 		int lastRet = -1; // index of last element returned; -1 if no such
 
 		public boolean hasNext() {
@@ -223,8 +227,7 @@ public class CacheList<E> extends ArrayList<E> {
 			if (cursor >= elementList.size()) {
 				throw new NoSuchElementException();
 			}
-			cursor++;
-			return get(lastRet = cursor);
+			return get(lastRet = cursor++);
 		}
 
 		public void remove() {

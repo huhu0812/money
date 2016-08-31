@@ -541,4 +541,18 @@ public class AnalyseResult implements Serializable {
 	public void setUpdatedTime(Date updatedTime) {
 		this.updatedTime = updatedTime;
 	}
+
+	@Override
+	public String toString() {
+		return "AnalyseResult [id=" + id + ", type=" + type + ", r01=" + r01 + ", r02=" + r02 + ", r03=" + r03
+				+ ", r04=" + r04 + ", r05=" + r05 + ", r06=" + r06 + ", r07=" + r07 + ", r08=" + r08 + ", r09=" + r09
+				+ ", r10=" + r10 + ", r11=" + r11 + ", r12=" + r12 + ", r13=" + r13 + ", r14=" + r14 + ", r15=" + r15
+				+ ", r16=" + r16 + ", r17=" + r17 + ", r18=" + r18 + ", r19=" + r19 + ", r20=" + r20 + ", r21=" + r21
+				+ ", r22=" + r22 + ", r23=" + r23 + ", r24=" + r24 + ", r25=" + r25 + ", r26=" + r26 + ", r27=" + r27
+				+ ", r28=" + r28 + ", r29=" + r29 + ", r30=" + r30 + ", r31=" + r31 + ", r32=" + r32 + ", r33=" + r33
+				+ ", b01=" + b01 + ", b02=" + b02 + ", b03=" + b03 + ", b04=" + b04 + ", b05=" + b05 + ", b06=" + b06
+				+ ", b07=" + b07 + ", b08=" + b08 + ", b09=" + b09 + ", b10=" + b10 + ", b11=" + b11 + ", b12=" + b12
+				+ ", b13=" + b13 + ", b14=" + b14 + ", b15=" + b15 + ", b16=" + b16 + ", updatedTime=" + updatedTime
+				+ "]";
+	}
 }

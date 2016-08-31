@@ -26,7 +26,8 @@ public class CacheFactory {
 		logger.debug("Get CacheWrapper, The cacheName is : " + cacheName);
 		CacheWrapper cacheWrapper = hashMapWrapper.get(cacheName);
 		if (cacheWrapper == null) {
-			initCache(StringUtils.isNotBlank(cacheName) ? cacheName : DEFAULT_NAME);
+			cacheName = StringUtils.isNotBlank(cacheName) ? cacheName : DEFAULT_NAME;
+			initCache(cacheName);
 			cacheWrapper = hashMapWrapper.get(cacheName);
 		}
 		return cacheWrapper;

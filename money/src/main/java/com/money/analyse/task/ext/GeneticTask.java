@@ -25,7 +25,7 @@ import com.money.utils.enums.AppeareType;
 
 public class GeneticTask extends BaseTask {
 
-	private static final double PM = 1 / 33;
+	private static double PM = 0.15;
 
 	private List<Entity> current = new CacheList<Entity>();
 
@@ -55,17 +55,13 @@ public class GeneticTask extends BaseTask {
 					second.mutation();
 					if (first.getPriority().compareTo(second.getPriority()) > 0) {
 						this.next.add(first);
-					}
-					if (first.getPriority().compareTo(second.getPriority()) < 0) {
+					} else if (first.getPriority().compareTo(second.getPriority()) < 0) {
 						this.next.add(second);
 					} else {
 						this.next.add(first);
 						this.next.add(second);
 					}
 				}
-			}
-			if (this.next.size() == 1) {
-				break;
 			}
 			this.current = new CacheList<Entity>(this.next);
 			this.next = new CacheList<Entity>();
@@ -84,15 +80,15 @@ public class GeneticTask extends BaseTask {
 			throw new Exception();
 		}
 		Map<String, String> redValueMap = ConstructUtil.getRedValue(analyseResults.get(0));
-		int sum = 0;
+		double sum = 0;
 		Iterator<Entry<String, String>> iter = redValueMap.entrySet().iterator();
 		while (iter.hasNext()) {
-			sum += Integer.valueOf(iter.next().getValue());
+			sum += Double.valueOf(iter.next().getValue());
 		}
 		iter = redValueMap.entrySet().iterator();
 		while (iter.hasNext()) {
 			Entry<String, String> entry = iter.next();
-			this.priorityMap.put(entry.getKey(), Double.valueOf(Integer.valueOf(entry.getValue()) / sum * 10000));
+			this.priorityMap.put(entry.getKey(), Double.valueOf(entry.getValue()) / sum * 10000);
 		}
 
 	}
@@ -117,7 +113,7 @@ public class GeneticTask extends BaseTask {
 
 		List<Integer> numbers = new ArrayList<Integer>(6);
 		List<Double> prioritys = new ArrayList<Double>(6);
-		private Double priority;
+		private Double priority = 0.0;
 
 		public Entity(OriginalNumber moneyNumber) {
 			for (String red : Constants.RED) {
@@ -173,13 +169,12 @@ public class GeneticTask extends BaseTask {
 			if (randomValue >= PM) {
 				return;
 			}
-			int index = (int) (randomValue * 10 % 6);
+			int index = (int) (Math.random() * 100 % 6);
 			int valueIndex;
 			int value;
 			do {
-				valueIndex = (int) (randomValue * 100 % Constants.RED.length);
+				valueIndex = (int) (Math.random() * 1000 % Constants.RED.length);
 				value = Integer.valueOf(Constants.RED[valueIndex]);
-				randomValue = Math.random();
 			} while (this.numbers.contains(value));
 			this.numbers.set(index, value);
 			this.prioritys.set(index, priorityMap.get("r" + Constants.RED[valueIndex]));
