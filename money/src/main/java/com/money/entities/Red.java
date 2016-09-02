@@ -1,6 +1,5 @@
 package com.money.entities;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,8 +9,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import com.money.utils.cache.Cacheable;
+
 @Entity
-public class Red implements Serializable {
+public class Red implements Cacheable {
 
 	/**
 	 * 
@@ -50,6 +51,11 @@ public class Red implements Serializable {
 
 	public List<String> getNumbers() {
 		return Arrays.asList(this.number.split(","));
+	}
+
+	@Override
+	public String getKey() {
+		return String.valueOf(this.id);
 	}
 
 }
