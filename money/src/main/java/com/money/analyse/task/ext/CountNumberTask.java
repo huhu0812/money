@@ -34,7 +34,7 @@ public class CountNumberTask extends BaseTask {
 
 	public void execute(Consumer<List<AnalyseResult>> consumer) {
 		this.analyseAll();
-		this.analyseCommone();
+		this.analyseCommon();
 	}
 
 	private void analyseAll() {
@@ -91,7 +91,7 @@ public class CountNumberTask extends BaseTask {
 		this.analyseResultRepository.save(updated);
 	}
 
-	private void analyseCommone() {
+	private void analyseCommon() {
 		Sort sort = new Sort(Sort.Direction.DESC, new String[] { "index" });
 		Pageable pageable = new PageRequest(0, AppeareType.getMax().getNumber(), sort);
 		Page<MoneyNumber> page = this.moneyNumberRepository.findAll(pageable);

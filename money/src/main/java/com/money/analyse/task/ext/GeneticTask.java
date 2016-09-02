@@ -12,11 +12,10 @@ import java.util.function.Consumer;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 
 import com.money.analyse.task.BaseTask;
 import com.money.entities.AnalyseResult;
-import com.money.entities.OriginalNumber;
+import com.money.entities.Red;
 import com.money.utils.CacheList;
 import com.money.utils.Constants;
 import com.money.utils.ConstructUtil;
@@ -94,8 +93,8 @@ public class GeneticTask extends BaseTask {
 	}
 
 	public void constructOriginalEntity() {
-		List<OriginalNumber> originalNumberList = this.originalNumberRepository.findAll();
-		for (OriginalNumber moneyNumber : originalNumberList) {
+		List<Red> originalNumberList = this.redRepository.findAll();
+		for (Red moneyNumber : originalNumberList) {
 			this.current.add(new Entity(moneyNumber));
 		}
 		current.stream().sorted(new Comparator<Entity>() {
@@ -115,23 +114,12 @@ public class GeneticTask extends BaseTask {
 		List<Double> prioritys = new ArrayList<Double>(6);
 		private Double priority = 0.0;
 
-		public Entity(OriginalNumber moneyNumber) {
-			for (String red : Constants.RED) {
-				try {
-					String field = "r" + red;
-					String value = BeanUtils.getProperty(moneyNumber, field);
-					if (StringUtils.isNotBlank(value)) {
-						numbers.add(Integer.valueOf(value));
-						this.priority += priorityMap.get(field);
-						prioritys.add(priorityMap.get(field));
-					}
-				} catch (IllegalAccessException e) {
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					e.printStackTrace();
-				} catch (NoSuchMethodException e) {
-					e.printStackTrace();
-				}
+		public Entity(Red red) {
+			for (String redNumber : red.getNumbers()) {
+				String field = "r" + redNumber;
+				numbers.add(Integer.valueOf(redNumber));
+				this.priority += priorityMap.get(field);
+				prioritys.add(priorityMap.get(field));
 			}
 		}
 

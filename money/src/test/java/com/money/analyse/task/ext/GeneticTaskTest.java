@@ -14,9 +14,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.money.entities.AnalyseResult;
-import com.money.entities.OriginalNumber;
+import com.money.entities.Red;
 import com.money.repository.AnalyseResultRepository;
-import com.money.repository.OriginalNumberRepository;
+import com.money.repository.RedRepository;
 import com.money.utils.Constants;
 import com.money.utils.enums.AppeareType;
 
@@ -30,7 +30,7 @@ public class GeneticTaskTest {
 	private AnalyseResultRepository analyseResultRepository;
 
 	@Mock
-	private OriginalNumberRepository originalNumberRepository;
+	private RedRepository redRepository;
 
 	@Test
 	public void testexecute() {
@@ -59,54 +59,29 @@ public class GeneticTaskTest {
 		EasyMock.expect(this.analyseResultRepository.findByType((AppeareType) EasyMock.anyObject()))
 				.andReturn(resultList);
 
-		List<OriginalNumber> numberList = new ArrayList<OriginalNumber>();
-		OriginalNumber number = new OriginalNumber();
-		number.setR01("01");
-		number.setR02("02");
-		number.setR03("03");
-		number.setR04("04");
-		number.setR05("05");
-		number.setR06("06");
+		List<Red> numberList = new ArrayList<Red>();
+		Red number = new Red();
+		number.setNumber("01,02,03,04,05,06");
 		numberList.add(number);
 
-		number = new OriginalNumber();
-		number.setR01("01");
-		number.setR02("02");
-		number.setR03("03");
-		number.setR04("04");
-		number.setR05("05");
-		number.setR07("07");
+		number = new Red();
+		number.setNumber("01,02,03,04,05,07");
 		numberList.add(number);
 
-		number = new OriginalNumber();
-		number.setR01("01");
-		number.setR02("02");
-		number.setR03("03");
-		number.setR04("04");
-		number.setR05("05");
-		number.setR08("08");
+		number = new Red();
+		number.setNumber("01,02,03,04,05,08");
 		numberList.add(number);
 
-		number = new OriginalNumber();
-		number.setR01("01");
-		number.setR02("02");
-		number.setR03("03");
-		number.setR04("04");
-		number.setR05("05");
-		number.setR09("09");
+		number = new Red();
+		number.setNumber("01,02,03,04,05,09");
 		numberList.add(number);
 
-		number = new OriginalNumber();
-		number.setR01("01");
-		number.setR02("02");
-		number.setR03("03");
-		number.setR04("04");
-		number.setR05("05");
-		number.setR10("10");
+		number = new Red();
+		number.setNumber("01,02,03,04,05,10");
 		numberList.add(number);
-		EasyMock.expect(this.originalNumberRepository.findAll()).andReturn(numberList);
+		EasyMock.expect(this.redRepository.findAll()).andReturn(numberList);
 
-		EasyMock.replay(this.analyseResultRepository, this.originalNumberRepository);
+		EasyMock.replay(this.analyseResultRepository, this.redRepository);
 		task.execute(new Consumer<List<AnalyseResult>>() {
 			public void accept(List<AnalyseResult> t) {
 				for (AnalyseResult result : t) {

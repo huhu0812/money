@@ -9,8 +9,6 @@ import java.util.Map;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 
-import com.money.entities.OriginalNumber;
-
 public class ConstructUtil {
 
 	public static Map<String, Integer> getInitCountMap() {
@@ -18,9 +16,9 @@ public class ConstructUtil {
 		for (int i = 0; i < Constants.RED.length; i++) {
 			countMap.put("r" + Constants.RED[i], Integer.valueOf(0));
 		}
-		for (int i = 0; i < Constants.BLUE.length; i++) {
-			countMap.put("b" + Constants.BLUE[i], Integer.valueOf(0));
-		}
+//		for (int i = 0; i < Constants.BLUE.length; i++) {
+//			countMap.put("b" + Constants.BLUE[i], Integer.valueOf(0));
+//		}
 		return countMap;
 	}
 
@@ -53,23 +51,4 @@ public class ConstructUtil {
 		return result;
 	}
 
-	public static OriginalNumber constructOriginalNumber(List<String> numbers) {
-		OriginalNumber result = new OriginalNumber();
-		for (int i = 0; i < numbers.size(); i++) {
-			String field = "r" + (String) numbers.get(i);
-			if (i == numbers.size() - 1) {
-				field = "b" + (String) numbers.get(i);
-				result.setBlue(numbers.get(i));
-			}
-			try {
-				BeanUtils.setProperty(result, field, numbers.get(i));
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-			}
-		}
-		result.setRedCombined(numbers.subList(0, numbers.size() - 1).toString());
-		return result;
-	}
 }

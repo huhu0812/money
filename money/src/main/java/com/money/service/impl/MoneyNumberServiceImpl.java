@@ -3,16 +3,18 @@ package com.money.service.impl;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import com.money.entities.MoneyNumber;
-import com.money.entities.OriginalNumber;
+import com.money.entities.Red;
 import com.money.model.HistoryNumber;
 import com.money.repository.MoneyNumberRepository;
-import com.money.repository.OriginalNumberRepository;
+import com.money.repository.RedRepository;
 import com.money.service.IMoneyNumberService;
 import com.money.utils.excel.ExcelReader;
 
@@ -23,7 +25,7 @@ public class MoneyNumberServiceImpl implements IMoneyNumberService {
 	private MoneyNumberRepository moneyNumberRepository;
 
 	@Resource
-	private OriginalNumberRepository originalNumberRepository;
+	private RedRepository redRepository;
 
 	public void uploadHistoryData(String filePath) {
 		ExcelReader.readExcel(filePath, new Consumer<List<String>>() {
@@ -31,13 +33,20 @@ public class MoneyNumberServiceImpl implements IMoneyNumberService {
 				MoneyNumber moneyNumber = new MoneyNumber();
 				moneyNumber.setDate(dataList.get(0));
 				moneyNumber.setIndex(dataList.get(1));
-				OriginalNumber originalNumber = originalNumberRepository.findByRedCombinedAndBlue(
-						dataList.subList(2, dataList.size() - 1).toString(), dataList.get(dataList.size() - 1));
-				if (originalNumber == null) {
-					return;
+				moneyNumber.setBlue(dataList.get(dataList.size() - 1));
+				List<String> redNumbers = dataList.subList(2, dataList.size() - 1);
+				String numbers = redNumbers.stream().collect(Collectors.joining(","));
+				Red red = redRepository.findByNumber(numbers);
+				if (red != null) {
+					redNumbers.forEach(redNumber -> {
+						try {
+							BeanUtils.setProperty(moneyNumber, "r" + redNumber, redNumber);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					});
+					moneyNumberRepository.save(moneyNumber);
 				}
-				moneyNumber.setNumber(originalNumber);
-				moneyNumberRepository.save(moneyNumber);
 			}
 		});
 	}
@@ -48,16 +57,24 @@ public class MoneyNumberServiceImpl implements IMoneyNumberService {
 				return o2.compareTo(o2);
 			}
 		});
-		OriginalNumber originalNumber = originalNumberRepository.findByRedCombinedAndBlue(
-				historyNumber.getNumbers().subList(0, historyNumber.getNumbers().size() - 1).toString(),
-				historyNumber.getNumbers().get(historyNumber.getNumbers().size() - 1));
-		if (originalNumber == null) {
-			return;
+		List<String> redNumbers = historyNumber.getNumbers().subList(0, historyNumber.getNumbers().size() - 1);
+		String numbers = redNumbers.stream().collect(Collectors.joining(","));
+		Red red = redRepository.findByNumber(numbers);
+		if (red != null) {
+			MoneyNumber moneyNumber = new MoneyNumber();
+			moneyNumber.setRed(red);
+			moneyNumber.setIndex(historyNumber.getIndex());
+			moneyNumber.setDate(historyNumber.getDate());
+			moneyNumber.setBlue(historyNumber.getNumbers().get(historyNumber.getNumbers().size() - 1));
+			redNumbers.forEach(redNumber -> {
+				try {
+					BeanUtils.setProperty(moneyNumber, "r" + redNumber, redNumber);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			});
+			moneyNumberRepository.save(moneyNumber);
 		}
-		MoneyNumber moneyNumber = new MoneyNumber();
-		moneyNumber.setNumber(originalNumber);
-		moneyNumber.setIndex(historyNumber.getIndex());
-		moneyNumber.setDate(historyNumber.getDate());
-		this.moneyNumberRepository.save(moneyNumber);
+
 	}
 }

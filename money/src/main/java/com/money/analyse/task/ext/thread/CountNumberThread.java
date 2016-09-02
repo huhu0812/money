@@ -48,7 +48,7 @@ public class CountNumberThread implements Runnable {
 			while (iter.hasNext()) {
 				Entry<String, Integer> entry = iter.next();
 				try {
-					String value = BeanUtils.getProperty(moneyNumber.getNumber(), entry.getKey());
+					String value = BeanUtils.getProperty(moneyNumber, entry.getKey());
 					if (StringUtils.isNotBlank(value)) {
 						int count = entry.getValue();
 						this.countMap.get().put(entry.getKey(), ++count);
