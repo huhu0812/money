@@ -16,7 +16,6 @@ import org.apache.commons.collections.CollectionUtils;
 import com.money.analyse.task.BaseTask;
 import com.money.entities.AnalyseResult;
 import com.money.entities.Red;
-import com.money.utils.CacheList;
 import com.money.utils.Constants;
 import com.money.utils.ConstructUtil;
 import com.money.utils.cache.Cacheable;
@@ -26,9 +25,9 @@ public class GeneticTask extends BaseTask {
 
 	private static double PM = 0.15;
 
-	private List<Entity> current = new CacheList<Entity>();
+	private List<Entity> current = new ArrayList<Entity>();
 
-	private List<Entity> next = new CacheList<Entity>();
+	private List<Entity> next = new ArrayList<Entity>();
 
 	private Map<String, Double> priorityMap = new HashMap<String, Double>();
 
@@ -62,8 +61,8 @@ public class GeneticTask extends BaseTask {
 					}
 				}
 			}
-			this.current = new CacheList<Entity>(this.next);
-			this.next = new CacheList<Entity>();
+			this.current = new ArrayList<Entity>(this.next);
+			this.next = new ArrayList<Entity>();
 			nums++;
 		} while (this.current.size() > 1 || nums < 100000);
 		List<AnalyseResult> result = new ArrayList<AnalyseResult>();
@@ -140,7 +139,7 @@ public class GeneticTask extends BaseTask {
 				if (i % 2 == 1) {
 					Integer tempNumber = this.numbers.get(i);
 					Double tempPriority = this.prioritys.get(i);
-					if (target.numbers.contains(tempNumber) && target.numbers.indexOf(tempNumber) != i) {
+					if (target.numbers.contains(tempNumber) || this.numbers.contains(target.numbers.get(i))) {
 						continue;
 					}
 					this.numbers.set(i, target.numbers.get(i));
